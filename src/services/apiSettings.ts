@@ -1,7 +1,15 @@
 import supabase from "./supabase";
+import type { ISettings } from "./apiTypes";
+import { PostgrestError } from "@supabase/supabase-js";
 
 export async function getSettings() {
-  const { data, error } = await supabase.from("settings").select("*").single();
+  const {
+    data,
+    error,
+  }: { data: ISettings[] | null; error: PostgrestError | null } = await supabase
+    .from("settings")
+    .select("*")
+    .single();
 
   if (error) {
     console.error(error);
@@ -10,8 +18,11 @@ export async function getSettings() {
   return data;
 }
 
+interface NewSetting {
+  setting: string | number;
+}
 // We expect a newSetting object that looks like {setting: newValue}
-export async function updateSetting(newSetting) {
+export async function updateSetting(newSetting: NewSetting) {
   const { data, error } = await supabase
     .from("settings")
     .update(newSetting)

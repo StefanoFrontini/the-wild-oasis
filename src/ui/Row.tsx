@@ -1,7 +1,8 @@
 import styled, { css } from "styled-components";
 
 interface Props {
-  type: "vertical" | "horizontal";
+  type?: "vertical" | "horizontal";
+  children: React.ReactNode;
 }
 
 const Row: React.FC<Props> = styled.div`
